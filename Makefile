@@ -6,7 +6,7 @@
 #    By: ofadahun <ofadahun@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/09/09 14:23:52 by ofadahun          #+#    #+#              #
-#    Updated: 2023/09/09 18:27:29 by ofadahun         ###   ########.fr        #
+#    Updated: 2023/09/09 20:06:41 by ofadahun         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -38,7 +38,7 @@ $(PHILO_OBJS_DIR)/%.o:	$(PHILO_SRCS_DIR)/%.c
 clean:
 	$(RM) $(RMFLAGS) $(PHILO_OBJS_DIR)
 
-fclean:
+fclean: clean
 	$(RM) $(RMFLAGS) $(PHILO)
 
 re: fclean all
