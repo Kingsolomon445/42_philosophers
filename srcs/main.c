@@ -6,22 +6,22 @@
 /*   By: ofadahun <ofadahun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/09 14:22:40 by ofadahun          #+#    #+#             */
-/*   Updated: 2023/09/09 20:00:46 by ofadahun         ###   ########.fr       */
+/*   Updated: 2023/09/10 15:55:12 by ofadahun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../philo.h"
 
 
-long    get_time_in_ms()
+size_t    get_time_in_ms()
 {
 	struct timeval  current_time;
-	long            ms;
+	size_t            ms;
 
 	gettimeofday(&current_time, NULL);
-	printf("Time in seconds: %ld  && microseconds: %d\n", current_time.tv_sec, current_time.tv_usec);
+	// printf("Time in seconds: %ld  && microseconds: %d\n", current_time.tv_sec, current_time.tv_usec);
 	ms = (current_time.tv_sec * 1000) + (current_time.tv_usec / 1000);
-	printf("Time in milliseconds: %ld\n", ms);
+	// printf("Time in milliseconds: %ld\n", ms);
 	return (ms);
 }
 void	wait_for_all_threads(t_philo *philo, int philo_no)
@@ -33,7 +33,7 @@ void	wait_for_all_threads(t_philo *philo, int philo_no)
 	while (i < philo_no)
 	{
 		tid = (philo + i)->tid;
-		printf("Main: Joined %d thread [%i]\n", i + 1, (philo + i)->id);
+		// printf("Main: Joined %d thread [%i]\n", i + 1, (philo + i)->id);
 		pthread_join(tid, NULL);
 		i++;
 	}
