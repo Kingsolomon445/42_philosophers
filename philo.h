@@ -32,7 +32,6 @@ typedef struct s_philo
 {
 	int             id;
 	int				philo_no;
-	int				eating;
 	int				meals_eaten;
 	int				my_fork_picked;
 	size_t			last_meal;
@@ -46,22 +45,17 @@ typedef struct s_philo
 	pthread_t		tid;
 	pthread_mutex_t	*r_fork;
 	pthread_mutex_t	*l_fork;
-	pthread_mutex_t	*death_lock;
 	pthread_mutex_t	*write_lock;
-	pthread_mutex_t	*meal_lock;
 }   t_philo;
 
 
 typedef struct s_program
 {
 	pthread_mutex_t	*forks;
-	pthread_mutex_t	death_lock;
 	pthread_mutex_t	write_lock;
-	pthread_mutex_t	meal_lock;
 	int				dead;
 	int				philo_no;
 	int				philo_eaten;
-	int				started;
 	t_philo			*philo;
 } t_program;
 
@@ -81,10 +75,12 @@ void	init_args(t_args *args, char *argv[]);
 int		init_philo(t_program *program, t_args *args, int i);
 int		init_program(t_program *program, t_args *args);
 
-void    *thread_monitor();
-void	*thread_routine(void	*arg);
+void    *thread_monitor(void *arg);
+void	*thread_routine(void *arg);
 
-size_t    get_time_in_ms();
+size_t	get_time_in_ms();
+int		ft_usleep(size_t ms);
+void	ft_srand(int min_delay_ms, int max_delay_ms);
 
 int		ft_atoi(const char *str);
 int		ft_strcmp(const char *s1, const char *s2);
