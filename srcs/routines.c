@@ -91,7 +91,6 @@ void	*thread_routine(void	*arg)
 			break ;
 		ft_print_action(philo, "is sleeping");
 		ft_usleep(philo->time_to_sleep);
-		// usleep(1000);
 	}
 	*philo->philo_eaten += 1;
 	return (NULL);
@@ -107,7 +106,6 @@ void	die_from_hunger(t_philo *philo, int philo_no, int *dead)
 		if ((philo + i)->start_time && ((get_time_in_ms() - (philo + i)->last_meal) > (philo + i)->time_to_die))
 		{
 			*dead = 1;
-			// printf("current time in ms: %lu   &&   last meal in ms: %lu  && start time in ms: %lu\n", get_time_in_ms(), (philo + i)->last_meal, (philo + i)->start_time);
 			printf("%s%lu %d has died%s\n", RED, get_time_in_ms() - (philo + i)->start_time, (philo + i)->id, RESET);
 			return ;
 		}
@@ -124,10 +122,7 @@ void    *thread_monitor(void *arg)
 	while (1)
 	{
 		if (program->dead || program->philo_eaten == program->philo_no)
-		{
-			printf("Program ended\n");
 			exit(EXIT_SUCCESS);
-		}
 		die_from_hunger(program->philo, program->philo_no, &program->dead);
 	}
 	return (NULL);
