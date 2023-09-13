@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ofadahun <ofadahun@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sbhatta <sbhatta@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/09 17:25:41 by ofadahun          #+#    #+#             */
-/*   Updated: 2023/09/10 19:42:48 by ofadahun         ###   ########.fr       */
+/*   Updated: 2023/09/13 18:59:54 by sbhatta          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../philo.h"
 
-void	init_args(t_args *args, char *argv[])
+void	init_args(t_program *program, char *argv[])
 {
 	int	i;
 
@@ -20,40 +20,46 @@ void	init_args(t_args *args, char *argv[])
 	while(argv[i])
 	{
 		if (i == 1)
-			args->philo_no = ft_atoi(argv[i]);
+			program->philo_no = ft_atoi(argv[i]);
 		if (i == 2)
-			args->time_to_die = ft_atoi(argv[i]);
+			program->time_to_die = ft_atoi(argv[i]);
 		if (i == 3)
-			args->time_to_eat = ft_atoi(argv[i]);
+			program->time_to_eat = ft_atoi(argv[i]);
 		if (i == 4)
-			args->time_to_sleep = ft_atoi(argv[i]);
+			program->time_to_sleep = ft_atoi(argv[i]);
 		if (i == 5)
-			args->meals_to_eat = ft_atoi(argv[i]);
+			program->meals_to_eat = ft_atoi(argv[i]);
 		i++;
 	}
 }
 
-int	init_philo(t_program *program, t_args *args, int i)
+int	init_philo(t_program *program, int i)
 {
 	t_philo	*philo;
 
 	philo = program->philo + i;
 	philo->id = i + 1;
-	philo->philo_no = args->philo_no;
-	philo->my_fork_picked = 0;
-	philo->time_to_die = args->time_to_die;
-	philo->time_to_eat = args->time_to_eat;
-	philo->time_to_sleep = args->time_to_sleep;
-	philo->meals_to_eat = args->meals_to_eat;
+	philo->left_fork_acquired = 0;
+	philo->right_fork_acquired = 0;
+	philo->philo_no = program->philo_no;
+	philo->time_to_die = program->time_to_die;
+	philo->time_to_eat = program->time_to_eat;
+	philo->time_to_sleep = program->time_to_sleep;
+	philo->meals_to_eat = program->meals_to_eat;
 	philo->meals_eaten = 0;
 	philo->start_time = 0;
 	philo->philo_eaten = &(program->philo_eaten);
 	philo->dead = &program->dead;
 	philo->write_lock = &program->write_lock;
+	philo->dead_lock = &program->dead_lock;
+	philo->meal_lock = &program->meal_lock;
 	philo->l_fork = program->forks + i;
-	// philo->l_fork = program->forks + ((i + args->philo_no - 1) % args->philo_no);
-	philo->r_fork = program->forks + ((i + 1) % args->philo_no);
-	pthread_create(&philo->tid, NULL, thread_routine, philo);
+	if (program->philo_no == 1)
+		philo->r_fork = NULL;
+	else
+		philo->r_fork = program->forks + ((i + 1) % program->philo_no);
+	if (pthread_create(&philo->tid, NULL, thread_routine, philo) != 0)
+		return (0);
 	return (1);
 }
 
@@ -68,31 +74,40 @@ pthread_mutex_t	*init_forks(int philo_no)
 	i = 0;
 	while (i < philo_no)
 	{
-		pthread_mutex_init(forks + i, NULL);
+		if (pthread_mutex_init(forks + i, NULL) == -1)
+			return (NULL);
 		i++;
 	}
 	return (forks);
 }
 
-int	init_program(t_program *program, t_args *args)
+int	init_program(t_program *program)
 {
-	pthread_t		tid;
 	int				i;
 
 	i = 0;
 	program->dead = 0;
-	program->philo_no = args->philo_no;
+	program->philo_no = program->philo_no;
 	program->philo_eaten = 0;
-	program->philo = (t_philo *)malloc(sizeof(t_philo) * (args->philo_no));
+	if (pthread_mutex_init(&program->write_lock, NULL) == -1)
+		return (0);
+	if (pthread_mutex_init(&program->dead_lock, NULL) == -1)
+		return (0);
+	if (pthread_mutex_init(&program->meal_lock, NULL) == -1)
+		return (0);
+	program->forks = init_forks(program->philo_no);
+	if (!program->forks)
+		return (0);
+	program->philo = (t_philo *)malloc(sizeof(t_philo) * (program->philo_no));
 	if (!program->philo)
 		return (0);
-	pthread_mutex_init(&program->write_lock, NULL);
-	program->forks = init_forks(args->philo_no);
-	while(i < args->philo_no)
+	while(i < program->philo_no)
 	{
-		init_philo(program, args, i);
+		if (!init_philo(program, i))
+			return (0);
 		i++;
 	}
-	pthread_create(&tid, NULL, thread_monitor, program);
+	if (pthread_create(&program->monitor_tid, NULL, thread_monitor, program) != 0)
+		return (0);
 	return (1);
 }

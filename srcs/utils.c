@@ -6,7 +6,7 @@
 /*   By: ofadahun <ofadahun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/09 17:29:34 by ofadahun          #+#    #+#             */
-/*   Updated: 2023/09/10 15:33:36 by ofadahun         ###   ########.fr       */
+/*   Updated: 2023/09/13 15:57:00 by ofadahun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,4 +52,55 @@ int	ft_strcmp(const char *s1, const char *s2)
 	if (!(*(s1 + i)) && !(*(s2 + i)))
 		return (0);
 	return ((unsigned char)*(s1 + i) - (unsigned char)*(s2 + i));
+}
+
+int	ft_isdigit(int c)
+{
+	if (c < '0' || c > '9')
+	{
+		return (0);
+	}
+	return (1);
+}
+
+int	check_if_all_digits(char **arg)
+{
+	int		i;
+	int		j;
+	char	*str;
+
+	i = 1;
+	while (*(arg + i))
+	{
+		str = *(arg + i);
+		j = 0;
+		if (*str == '-' || *str == '+')
+			j++;
+		if (!(*(str + j)))
+			return (0);
+		while (*(str + j))
+		{
+			if (!ft_isdigit(*(str + j)))
+				return (0);
+			j++;
+		}
+		i++;
+	}
+	return (1);
+}
+
+int	check_if_all_positive(char **arg)
+{
+	int	i;
+	int	num;
+
+	i = 1;
+	while (*(arg + i))
+	{
+		num = ft_atoi(*(arg + i));
+		if (num < 0)
+			return (0);
+		i++;
+	}
+	return (1);
 }
