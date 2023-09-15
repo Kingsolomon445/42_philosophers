@@ -20,9 +20,7 @@ int	ft_print_action(t_philo *philo, const char *action_str)
 	if (is_dead(philo))
 		return (0);
 	philo_id = philo->id;
-	pthread_mutex_lock(philo->meal_lock);
 	start_time = philo->start_time;
-	pthread_mutex_unlock(philo->meal_lock);
 	pthread_mutex_lock(philo->write_lock);
 	if (ft_strcmp(action_str, "has taken a fork") == 0)
 		printf("%s%lu %d %s%s\n", YELLOW, get_time_in_ms() - start_time, philo_id, action_str, RESET);
@@ -86,6 +84,8 @@ void	destroy_all_mutex(t_program *program, int philo_no)
 
 	i = 0;
 	pthread_mutex_destroy(&(program->write_lock));
+	pthread_mutex_destroy(&(program->last_meal_lock));
+	pthread_mutex_destroy(&(program->philo_eaten_lock));
 	while (i < philo_no)
 	{
 		pthread_mutex_destroy(program->forks + i);

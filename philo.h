@@ -46,7 +46,8 @@ typedef struct s_philo
 	pthread_mutex_t	*l_fork;
 	pthread_mutex_t	*write_lock;
 	pthread_mutex_t	*dead_lock;
-	pthread_mutex_t	*meal_lock;
+	pthread_mutex_t	*last_meal_lock;
+	pthread_mutex_t	*philo_eaten_lock;
 }   t_philo;
 
 
@@ -55,7 +56,8 @@ typedef struct s_program
 	pthread_mutex_t	*forks;
 	pthread_mutex_t	write_lock;
 	pthread_mutex_t	dead_lock;
-	pthread_mutex_t	meal_lock;
+	pthread_mutex_t	last_meal_lock;
+	pthread_mutex_t	philo_eaten_lock;
 	pthread_t		monitor_tid;
 	int				dead;
 	int				philo_no;

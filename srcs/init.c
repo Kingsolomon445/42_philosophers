@@ -52,7 +52,8 @@ int	init_philo(t_program *program, int i)
 	philo->dead = &program->dead;
 	philo->write_lock = &program->write_lock;
 	philo->dead_lock = &program->dead_lock;
-	philo->meal_lock = &program->meal_lock;
+	philo->last_meal_lock = &program->last_meal_lock;
+	philo->philo_eaten_lock = &program->philo_eaten_lock;
 	philo->l_fork = program->forks + i;
 	if (program->philo_no == 1)
 		philo->r_fork = NULL;
@@ -89,11 +90,10 @@ int	init_program(t_program *program)
 	program->dead = 0;
 	program->philo_no = program->philo_no;
 	program->philo_eaten = 0;
-	if (pthread_mutex_init(&program->write_lock, NULL) == -1)
-		return (0);
-	if (pthread_mutex_init(&program->dead_lock, NULL) == -1)
-		return (0);
-	if (pthread_mutex_init(&program->meal_lock, NULL) == -1)
+	if (pthread_mutex_init(&program->write_lock, NULL) == -1 || \
+	pthread_mutex_init(&program->dead_lock, NULL) == -1 || \
+	pthread_mutex_init(&program->last_meal_lock, NULL) == -1 || \
+	pthread_mutex_init(&program->philo_eaten_lock, NULL) == -1)
 		return (0);
 	program->forks = init_forks(program->philo_no);
 	if (!program->forks)
