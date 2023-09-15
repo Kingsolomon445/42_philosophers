@@ -41,9 +41,7 @@ static int	has_died(t_program *program)
 
 static int	ft_eat(t_philo *philo)
 {
-	if (!pick_forks(philo))
-		return (0);
-	if (!ft_print_action(philo, "is eating"))
+	if (!pick_forks(philo) || !ft_print_action(philo, "is eating"))
 		return (0);
 	pthread_mutex_lock(philo->last_meal_lock);
 	philo->last_meal = get_time_in_ms();

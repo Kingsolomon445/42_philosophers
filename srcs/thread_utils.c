@@ -30,8 +30,6 @@ int	ft_print_action(t_philo *philo, const char *action_str)
 		printf("%lu %d %s\n", get_time_in_ms() - start_time, philo_id, action_str);
 	else if (!ft_strcmp(action_str, "is thinking"))
 		printf("%s%lu %d %s%s\n", CYAN, get_time_in_ms() - start_time, philo_id, action_str, RESET);
-	else
-		printf("%s%lu %d %s%s\n", RED, get_time_in_ms() - start_time, philo_id, action_str, RESET);
 	pthread_mutex_unlock(philo->write_lock);
 	return (1);
 }

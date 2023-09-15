@@ -55,9 +55,7 @@ int	init_philo(t_program *program, int i)
 	philo->last_meal_lock = &program->last_meal_lock;
 	philo->philo_eaten_lock = &program->philo_eaten_lock;
 	philo->l_fork = program->forks + i;
-	if (program->philo_no == 1)
-		philo->r_fork = NULL;
-	else
+	if (program->philo_no != 1)
 		philo->r_fork = program->forks + ((i + 1) % program->philo_no);
 	if (pthread_create(&philo->tid, NULL, thread_routine, philo) != 0)
 		return (0);
