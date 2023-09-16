@@ -6,7 +6,7 @@
 /*   By: ofadahun <ofadahun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 15:55:15 by ofadahun          #+#    #+#             */
-/*   Updated: 2023/09/16 14:01:24 by ofadahun         ###   ########.fr       */
+/*   Updated: 2023/09/16 15:40:57 by ofadahun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	ft_print_action(t_philo *philo, const char *action_str)
 	if (is_dead(philo))
 		return (0);
 	philo_id = philo->id;
-	start_time = philo->start_time;
+	start_time = *philo->start_time;
 	pthread_mutex_lock(philo->write_lock);
 	if (ft_strcmp(action_str, "has taken a fork") == 0)
 		printf("%s%lu %d %s%s\n", YELLOW, get_time_in_ms() - \

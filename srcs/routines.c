@@ -6,7 +6,7 @@
 /*   By: ofadahun <ofadahun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/09 17:27:44 by ofadahun          #+#    #+#             */
-/*   Updated: 2023/09/16 14:02:39 by ofadahun         ###   ########.fr       */
+/*   Updated: 2023/09/16 15:42:12 by ofadahun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static int	has_died(t_program *program)
 	while (i < program->philo_no)
 	{
 		pthread_mutex_lock(&program->last_meal_lock);
-		start_time = (program->philo + i)->start_time;
+		start_time = program->start_time;
 		if (start_time && ((get_time_in_ms() - \
 		(program->philo + i)->last_meal) > program->time_to_die))
 		{
@@ -62,8 +62,9 @@ void	*thread_routine(void	*arg)
 
 	philo = (t_philo *)arg;
 	pthread_mutex_lock(philo->last_meal_lock);
-	philo->start_time = get_time_in_ms();
 	philo->last_meal = get_time_in_ms();
+	if (*philo->start_time == 0)
+		*philo->start_time = get_time_in_ms();
 	pthread_mutex_unlock(philo->last_meal_lock);
 	while (1)
 	{

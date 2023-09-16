@@ -6,7 +6,7 @@
 /*   By: ofadahun <ofadahun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/09 14:36:59 by ofadahun          #+#    #+#             */
-/*   Updated: 2023/09/16 14:07:59 by ofadahun         ###   ########.fr       */
+/*   Updated: 2023/09/16 15:40:53 by ofadahun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ typedef struct s_philo
 	size_t			time_to_die;
 	size_t			time_to_eat;
 	size_t			time_to_sleep;
-	size_t			start_time;
+	size_t			*start_time;
 	int				meals_to_eat;
 	int				*dead;
 	int				*philo_eaten;
@@ -60,6 +60,7 @@ typedef struct s_program
 	int				dead;
 	int				philo_no;
 	int				philo_eaten;
+	size_t			start_time;
 	size_t			time_to_die;
 	size_t			time_to_eat;
 	size_t			time_to_sleep;

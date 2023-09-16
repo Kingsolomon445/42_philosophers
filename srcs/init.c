@@ -6,7 +6,7 @@
 /*   By: ofadahun <ofadahun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/09 17:25:41 by ofadahun          #+#    #+#             */
-/*   Updated: 2023/09/16 14:06:26 by ofadahun         ###   ########.fr       */
+/*   Updated: 2023/09/16 15:41:34 by ofadahun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ int	init_philo(t_program *program, int i)
 	philo->time_to_sleep = program->time_to_sleep;
 	philo->meals_to_eat = program->meals_to_eat;
 	philo->meals_eaten = 0;
-	philo->start_time = 0;
+	philo->start_time = &(program->start_time);
 	philo->philo_eaten = &(program->philo_eaten);
 	philo->dead = &program->dead;
 	philo->write_lock = &program->write_lock;
@@ -88,6 +88,7 @@ int	init_program(t_program *program)
 	program->dead = 0;
 	program->philo_no = program->philo_no;
 	program->philo_eaten = 0;
+	program->start_time = 0;
 	if (pthread_mutex_init(&program->write_lock, NULL) == -1 || \
 	pthread_mutex_init(&program->dead_lock, NULL) == -1 || \
 	pthread_mutex_init(&program->last_meal_lock, NULL) == -1 || \
