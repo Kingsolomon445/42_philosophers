@@ -6,7 +6,7 @@
 /*   By: ofadahun <ofadahun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/09 17:25:41 by ofadahun          #+#    #+#             */
-/*   Updated: 2023/09/16 15:41:34 by ofadahun         ###   ########.fr       */
+/*   Updated: 2023/09/16 18:57:07 by ofadahun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ int	init_philo(t_program *program, int i)
 	philo->time_to_sleep = program->time_to_sleep;
 	philo->meals_to_eat = program->meals_to_eat;
 	philo->meals_eaten = 0;
+	philo->last_meal = 0;
 	philo->start_time = &(program->start_time);
 	philo->philo_eaten = &(program->philo_eaten);
 	philo->dead = &program->dead;

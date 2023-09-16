@@ -6,7 +6,7 @@
 /*   By: ofadahun <ofadahun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/09 17:27:44 by ofadahun          #+#    #+#             */
-/*   Updated: 2023/09/16 15:42:12 by ofadahun         ###   ########.fr       */
+/*   Updated: 2023/09/16 18:57:28 by ofadahun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static int	has_died(t_program *program)
 	{
 		pthread_mutex_lock(&program->last_meal_lock);
 		start_time = program->start_time;
-		if (start_time && ((get_time_in_ms() - \
+		if (start_time && (program->philo + i)->last_meal && ((get_time_in_ms() - \
 		(program->philo + i)->last_meal) > program->time_to_die))
 		{
 			pthread_mutex_unlock(&program->last_meal_lock);
