@@ -6,7 +6,7 @@
 /*   By: ofadahun <ofadahun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 15:55:15 by ofadahun          #+#    #+#             */
-/*   Updated: 2023/09/13 20:51:33 by ofadahun         ###   ########.fr       */
+/*   Updated: 2023/09/16 14:01:24 by ofadahun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,18 +23,22 @@ int	ft_print_action(t_philo *philo, const char *action_str)
 	start_time = philo->start_time;
 	pthread_mutex_lock(philo->write_lock);
 	if (ft_strcmp(action_str, "has taken a fork") == 0)
-		printf("%s%lu %d %s%s\n", YELLOW, get_time_in_ms() - start_time, philo_id, action_str, RESET);
+		printf("%s%lu %d %s%s\n", YELLOW, get_time_in_ms() - \
+		start_time, philo_id, action_str, RESET);
 	else if (ft_strcmp(action_str, "is eating") == 0)
-		printf("%s%lu %d %s%s\n", GREEN, get_time_in_ms() - start_time, philo_id, action_str, RESET);
+		printf("%s%lu %d %s%s\n", GREEN, get_time_in_ms() - \
+		start_time, philo_id, action_str, RESET);
 	else if (!ft_strcmp(action_str, "is sleeping"))
-		printf("%lu %d %s\n", get_time_in_ms() - start_time, philo_id, action_str);
+		printf("%lu %d %s\n", get_time_in_ms() - \
+		start_time, philo_id, action_str);
 	else if (!ft_strcmp(action_str, "is thinking"))
-		printf("%s%lu %d %s%s\n", CYAN, get_time_in_ms() - start_time, philo_id, action_str, RESET);
+		printf("%s%lu %d %s%s\n", CYAN, get_time_in_ms() - \
+		start_time, philo_id, action_str, RESET);
 	pthread_mutex_unlock(philo->write_lock);
 	return (1);
 }
 
-int is_dead(t_philo *philo)
+int	is_dead(t_philo *philo)
 {
 	pthread_mutex_lock(philo->dead_lock);
 	if (*philo->dead)
@@ -64,6 +68,11 @@ void	wait_for_all_threads(t_program *program)
 
 	i = 0;
 	philo = program->philo;
+	if (pthread_join(program->monitor_tid, NULL) == -1)
+	{
+		close_program(program);
+		exit(EXIT_FAILURE);
+	}
 	while (i < program->philo_no)
 	{
 		tid = (philo + i)->tid;
@@ -78,7 +87,7 @@ void	wait_for_all_threads(t_program *program)
 
 void	destroy_all_mutex(t_program *program, int philo_no)
 {
-	int 	i;
+	int	i;
 
 	i = 0;
 	pthread_mutex_destroy(&(program->write_lock));

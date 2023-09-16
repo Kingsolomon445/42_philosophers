@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sbhatta <sbhatta@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ofadahun <ofadahun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/09 17:25:41 by ofadahun          #+#    #+#             */
-/*   Updated: 2023/09/13 18:59:54 by sbhatta          ###   ########.fr       */
+/*   Updated: 2023/09/16 14:06:26 by ofadahun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	init_args(t_program *program, char *argv[])
 	int	i;
 
 	i = 1;
-	while(argv[i])
+	while (argv[i])
 	{
 		if (i == 1)
 			program->philo_no = ft_atoi(argv[i]);
@@ -94,18 +94,17 @@ int	init_program(t_program *program)
 	pthread_mutex_init(&program->philo_eaten_lock, NULL) == -1)
 		return (0);
 	program->forks = init_forks(program->philo_no);
-	if (!program->forks)
-		return (0);
 	program->philo = (t_philo *)malloc(sizeof(t_philo) * (program->philo_no));
-	if (!program->philo)
+	if (!program->philo || !program->forks)
 		return (0);
-	while(i < program->philo_no)
+	while (i < program->philo_no)
 	{
 		if (!init_philo(program, i))
 			return (0);
 		i++;
 	}
-	if (pthread_create(&program->monitor_tid, NULL, thread_monitor, program) != 0)
+	if (pthread_create(&program->monitor_tid, \
+	NULL, thread_monitor, program) != 0)
 		return (0);
 	return (1);
 }

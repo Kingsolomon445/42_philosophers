@@ -6,7 +6,7 @@
 #    By: ofadahun <ofadahun@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/09/09 14:23:52 by ofadahun          #+#    #+#              #
-#    Updated: 2023/09/09 20:06:41 by ofadahun         ###   ########.fr        #
+#    Updated: 2023/09/16 13:57:28 by ofadahun         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,7 @@ PHILO_SRCS		=	$(wildcard $(PHILO_SRCS_DIR)/*.c)
 PHILO_OBJS		=	$(addprefix $(PHILO_OBJS_DIR)/,$(notdir $(PHILO_SRCS:.c=.o)))
 
 CC			=	cc
-CFLAGS		=	-pthread -Wall -Werror -Wextra
+CFLAGS		=	-pthread -Wall -Werror -Wextra -g -fsanitize=thread -g
 
 RM			=	rm
 RMFLAGS		=	-rf
@@ -29,7 +29,7 @@ $(PHILO_OBJS_DIR):
 	mkdir -p $(PHILO_OBJS_DIR)
 	
 $(PHILO):	$(PHILO_OBJS_DIR) $(PHILO_OBJS)
-	$(CC) -o $(PHILO) $(PHILO_OBJS)
+	$(CC) -o $(PHILO) $(PHILO_OBJS) -fsanitize=thread -static-libsan
 
 $(PHILO_OBJS_DIR)/%.o:	$(PHILO_SRCS_DIR)/%.c
 	$(CC) -c $(CFLAGS) $< -o $@
